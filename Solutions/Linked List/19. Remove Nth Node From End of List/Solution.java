@@ -9,15 +9,7 @@
  * }
  */
 class Solution {
-    public ListNode reverseBetween(ListNode head, int left, int right) {
-        if(left==right) return head;
-        ListNode dummy = new ListNode(-1);
-        dummy.next = head;
-        ListNode p = dummy;
-        for(int i=0; i<m-1;i++){
-            p = p.next;
-        }
-        ListNode 
+    public ListNode removeNthFromEnd(ListNode head, int n) {
         
     }
 }
