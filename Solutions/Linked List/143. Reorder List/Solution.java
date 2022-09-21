@@ -1,43 +1,53 @@
 /**
  * Definition for singly-linked list.
  * public class ListNode {
- * int val;
- * ListNode next;
- * ListNode(int x) { val = x; }
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
 class Solution {
     public void reorderList(ListNode head) {
-        if (head == null || head.next == null)
+        if(head==null||head.next==null){
             return;
-        ListNode p1 = head, p2 = head;
-        // find middle node
-        while (p2.next != null && p2.next.next != null) {
-            p1 = p1.next;
-            p2 = p2.next.next;
         }
-        // change list from 1->2->3->4->5->6 to 1->2->3->6->5->4
-        ListNode mid = p1;
-        ListNode a = mid.next;
-        ListNode b = a.next;
-        while (b != null) {
-            ListNode tmp = b.next;
-            b.next = a;
-            a = b;
-            b = tmp;
+        
+        ListNode slow = head;
+        ListNode fast = head;
+        
+        while(fast.next!=null&&fast.next.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
         }
-        mid.next.next = b;
-        mid.next = a;
-        p1 = head;
-        p2 = mid.next;
-
-        while (p1 != mid) {
-            mid.next = p2.next;
-            p2.next = p1.next;
-            p1.next = p2;
-            p1 = p2.next;
-            p2 = mid.next;
+        
+        
+        ListNode h2 = reverse(slow.next);
+        slow.next = null;
+        
+        //merge two linkedlist
+        
+        while(head!=null&&h2!=null){
+            ListNode h1tmp = head.next;
+            ListNode h2tmp = h2.next;
+            h2.next = head.next;
+            head.next = h2;
+            head = h1tmp;
+            h2 = h2tmp;
         }
-
+        
+    }
+    
+    private ListNode reverse(ListNode head){
+        ListNode pre = null;
+        ListNode cur = head;
+        while(cur!=null){
+            ListNode tmp = cur.next;
+            cur.next = pre;
+            pre = cur;
+            cur = tmp;
+        }
+        return pre;
     }
 }
