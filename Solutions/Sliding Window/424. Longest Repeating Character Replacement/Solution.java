@@ -1,23 +1,23 @@
-import java.util.Map;
-
 class Solution {
     public int characterReplacement(String s, int k) {
-        int wStart = 0, maxLength=0, maxRepeatCount = 0;
-        Map<Character,Integer> frequencyMap = new HashMap<>();
-        for(int wEnd = 0; wEnd<s.length();wEnd++){
-            char rightChar = s.charAt(wEnd);
-            frequencyMap.put(rightChar, frequencyMap.getOrDefault(rightChar,0)+1);
+        int[] freqMap = new int[26];
+        int left = 0;
+        int len = s.length();
+        int res = 0;
+        int maxHistoryFreqCount = 0;
+        for (int right = 0; right < len; right++) {
+            int charIdx = s.charAt(right) - 'A';
+            freqMap[charIdx]++;
+            maxHistoryFreqCount = Math.max(maxHistoryFreqCount, freqMap[charIdx]);
 
-            maxRepeatCount = Math.max(maxRepeatCount, frequencyMap.get(rightChar));
-
-            if(wEnd-wStart+1-maxRepeatCount>k){
-                frequencyMap.put(s.charAt(wStart), frequencyMap.get(s.charAt(wStart))-1);
-                wStart++;
-                
+            if (right - left + 1 > maxHistoryFreqCount + k) {
+                freqMap[s.charAt(left) - 'A']--;
+                left++;
             }
 
-            maxLength = Math.max(maxLength, wEnd-wStart+1);
+            res = Math.max(right - left + 1, res);
+
         }
-        return maxLength;
-    }
+        return res;
+    };
 }
