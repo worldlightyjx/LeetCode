@@ -3,20 +3,21 @@ import java.util.Map;
 
 class Solution {
     public int lengthOfLongestSubstring(String s) {
-        int windowStart = 0, maxLength = 0;
-        Map<Character,Integer> frequencyMap = new HashMap<>();
-        for(int windowEnd = 0; windowEnd<s.length();windowEnd++){
-            char rightChar = s.charAt(windowEnd);
-            if(frequencyMap.containsKey(rightChar)){
-                windowStart = Math.max(windowStart, frequencyMap.get(rightChar)+1);
+        int left = 0;
+        int[] cnt = new int[128];
+        int res = 0;
+        for (int right = 0; right < s.length(); right++) {
+            int idx = s.charAt(right);
+            cnt[idx]++;
+
+            while (cnt[idx] > 1) {
+                cnt[s.charAt(left)]--;
+                left++;
             }
-
-            frequencyMap.put(rightChar, windowEnd);
-            maxLength = Math.max(maxLength, windowEnd-windowStart+1);
-
+            res = Math.max(res, right - left + 1);
 
         }
-        return maxLength;
+        return res;
+
     }
 }
-
